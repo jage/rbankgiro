@@ -33,10 +33,10 @@ class TestTransactions < Test::Unit::TestCase
     end
   end
   
-  # def test_transaction_count_error
-  #   assert_raise(Rbankgiro::TransactionCountError) do
-  #     Rbankgiro::Transactions.new(fixture_file_path('missing_transaction_09_02_27.txt'), '53090965')    
-  #   end
-  # end
+  def test_transaction_count_error
+    assert_raise(Rbankgiro::TransactionCountError) do
+      Rbankgiro::Transactions.new(fixture_file_path('one_to_many_transactions_09_02_27.txt'), '53090965')    
+    end
+  end
   
 end
