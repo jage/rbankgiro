@@ -12,6 +12,9 @@ Gem::Specification.new do |s|
   s.date = %q{2009-12-05}
   s.description = %q{Parsing transaction files from swedish Bankgiro central}
   s.email = %q{johan@duh.se}
+  s.files = [
+    "lib/rbankgiro.rb"
+  ]
   s.homepage = %q{http://github.com/jage/rbankgiro}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
