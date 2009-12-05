@@ -11,7 +11,7 @@ begin
     gemspec.email = "johan@duh.se"
     gemspec.homepage = "http://github.com/jage/rbankgiro"
     gemspec.authors = ["Johan Eckerström"]
-    gemspec.files = FileList['lib/rbankgiro.rb']
+    #gemspec.files = FileList['lib/rbankgiro.rb']
     gemspec.has_rdoc = false
   end
 rescue LoadError
