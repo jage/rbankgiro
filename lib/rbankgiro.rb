@@ -34,8 +34,7 @@ module Rbankgiro
     def initialize(file, bankgiro_number)
       @bankgiro_number = bankgiro_number.to_s
       
-      ocr_transaction_input = File.open(file, 'r') {|f| f.read }
-      ocr_transaction_input.each_line do |row|
+      File.read(file).each_line do |row|
         next if row.strip.empty? # Skip empty rows
         parse_row(row)
       end
@@ -89,7 +88,6 @@ module Rbankgiro
             number_of_transactions  = r[3]
             payments_raw_sum        = r[4]
             payments_sum = payments_raw_sum.split('')[0..-3].join.to_i # Remove the Öre
-            
           else
             raise FileFormatError
           end
