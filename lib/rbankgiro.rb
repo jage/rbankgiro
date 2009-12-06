@@ -42,7 +42,7 @@ module Rbankgiro
     end
     
     def sum
-      self.collect {|t| t.amount }.reduce(:+)
+      self.collect {|t| t.amount }.inject {|s,n| s + n }
     end
     
     def inspect
@@ -94,7 +94,7 @@ module Rbankgiro
             raise FileFormatError
           end
             
-          raise PartSumError          unless payments_sum == self.collect {|t| t.amount }.reduce(:+) 
+          raise PartSumError unless payments_sum == self.collect {|t| t.amount }.inject {|s,n| s + n } 
           raise TransactionCountError unless number_of_transactions.to_i == self.length
         when '90'
           # Total payment check
@@ -108,7 +108,7 @@ module Rbankgiro
             raise FileFormatError
           end
             
-          raise PartSumError          unless payments_sum == self.collect {|t| t.amount }.reduce(:+)
+          raise PartSumError unless payments_sum == self.collect {|t| t.amount }.inject {|s,n| s + n }
           raise TransactionCountError unless number_of_transactions.to_i == self.length
         else
           # Should be handled by previous cases, if it goes here something is wrong
