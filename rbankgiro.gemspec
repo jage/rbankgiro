@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rbankgiro}
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Johan Eckerstr\303\266m"]
-  s.date = %q{2009-12-06}
+  s.date = %q{2009-12-08}
   s.description = %q{Parsing transaction files from swedish Bankgiro central}
   s.email = %q{johan@duh.se}
   s.extra_rdoc_files = [
@@ -23,9 +23,13 @@ Gem::Specification.new do |s|
      "rbankgiro.gemspec",
      "test/fixtures/corrupt_header_09_02_27.txt",
      "test/fixtures/file_format_error_09_02_27.txt",
+     "test/fixtures/invalid_bankgiro_number_09_02_27.txt",
      "test/fixtures/missing_transaction_09_02_27.txt",
+     "test/fixtures/multiple_transactions_06_06_20.txt",
+     "test/fixtures/multiple_transactions_with_plusgiro_06_06_20.txt",
      "test/fixtures/one_too_many_transactions_09_02_27.txt",
      "test/fixtures/one_transaction_09_02_27.txt",
+     "test/fixtures/overpunch_transaction_with_missing_lb_flag_06_06_20.txt",
      "test/helper.rb",
      "test/test_transaction.rb",
      "test/test_transactions.rb"
