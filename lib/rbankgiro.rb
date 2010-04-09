@@ -6,14 +6,14 @@ module Rbankgiro
   class FileFormatError       < StandardError; end
   class TransactionCountError < StandardError; end
   class PartSumError          < StandardError; end
-    
+
   # A Bankgiro transaction, contains reference_number-number for the transaction
   # amount in SEK and the transaction date
   class Transaction
-    attr_reader :amount, :ore, :reference_number, :file_date, 
+    attr_reader :amount, :ore, :reference_number, :file_date,
                 :bankgiro_number, :lb_flag, :service_number
-    
-    OVERPUNCH_TRANSLATION = { 
+
+    OVERPUNCH_TRANSLATION = {
       "-" => "0",
       "J" => "1",
       "K" => "2",
@@ -25,10 +25,10 @@ module Rbankgiro
       "Q" => "8",
       "R" => "9"
     }
-    
+
     def initialize(reference_number, raw_amount, file_date, bankgiro_number, lb_flag = false, service_number = false)
       @raw_amount = raw_amount
-      
+
       r = raw_amount.match(/^(\d{11})(.)(.)$/)
 
       if OVERPUNCH_TRANSLATION.include?(r[3])
@@ -39,17 +39,17 @@ module Rbankgiro
         amount = r[1]
         ore    = r[2] + r[3]
       end
-      
-      @amount          = amount.to_i
-      @ore             = ore.to_i
-      @reference_number             = reference_number
-      @file_date       = file_date
-      @bankgiro_number = bankgiro_number
-      @lb_flag         = lb_flag
-      @service_number  = service_number
-    end 
-    
-    # If the amount last two characters aren't 00, 
+
+      @amount           = amount.to_i
+      @ore              = ore.to_i
+      @reference_number = reference_number
+      @file_date        = file_date
+      @bankgiro_number  = bankgiro_number
+      @lb_flag          = lb_flag
+      @service_number   = service_number
+    end
+
+    # If the amount last two characters aren't 00,
     # there has been some kind of rounding
     def rounding?
       @raw_amount.split('')[-2..-1].join != '00'
@@ -58,7 +58,7 @@ module Rbankgiro
 
   class Transactions < Array
     attr_reader :file_date
-    
+
     # Parses an reference_number transaction file from Rbankgirocentralen
     # Creates Rbankgiro::Transaction objects for each transaction
     def initialize(file)
@@ -67,22 +67,22 @@ module Rbankgiro
         parse_row(row)
       end
     end
-    
+
     def sum
       self.collect {|t| t.amount }.inject {|s,n| s + n }
     end
-    
+
     def inspect
-        sprintf("#<%s:0x%x %s>", self.class.name, __id__, 
+        sprintf("#<%s:0x%x %s>", self.class.name, __id__,
           "@sum=#{self.sum}, @length=#{self.length}, @file_date=#{self.file_date}")
     end
-    
+
     def select_with(bankgiro_number)
       self.dup.replace(self.select {|t| t.bankgiro_number == bankgiro_number })
     end
-    
+
     private
-    
+
       def parse_row(row)
         columns = row.split(' ').collect {|c| c.strip }.compact
         case columns[0]
@@ -99,11 +99,11 @@ module Rbankgiro
           # <8:bankgiro number>
           @bankgiro_number = columns[1]
           raise InvalidBankgiroNumber unless @bankgiro_number
-        when '30' 
+        when '30'
           # Specifies the bankgiro number with the transaction date after:
           # <8:bankgiro number><6:date>
           raise FileFormatError unless columns[1] == @bankgiro_number + @raw_file_date
-        when '40' 
+        when '40'
           # Transaction row:
           # <17:reference number><13:Amount with öre or overpunch>    <2:LB flag if "Leverantörsbetalning">
            if r = columns[1].match(/^(\d+)(.{13})$/)
@@ -125,7 +125,7 @@ module Rbankgiro
           else
             raise FileFormatError, "Part payment row"
           end
-            
+
           transactions_sum = self.select_with(@bankgiro_number).sum
           unless payments_sum == transactions_sum
             raise PartSumError, "part payment row is #{payments_sum}, transaction sum is #{transactions_sum}"
@@ -141,7 +141,7 @@ module Rbankgiro
           else
             raise FileFormatError, "Total payment row, syntax error"
           end
-          
+
           raise PartSumError, "Total payment row" unless payments_sum == self.sum
           raise TransactionCountError unless number_of_transactions == self.length
         else
