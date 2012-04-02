@@ -1,4 +1,4 @@
-# rbankgiro - parse Bankgiro transaction files
+# rbankgiro - parse Bankgiro transaction files [![Tested with Travis-CI](https://secure.travis-ci.org/jage/rbankgiro.png)](http://travis-ci.org/#!/jage/rbankgiro)
 
 Read more about bankgiro at: http://www.bgc.se/
 
