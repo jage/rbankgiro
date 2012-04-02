@@ -1,4 +1,4 @@
-require 'time'
+require 'date'
 
 module Rbankgiro
   class CorruptHeader         < StandardError; end
@@ -92,7 +92,8 @@ module Rbankgiro
           raise CorruptHeader unless columns[2] == 'BANKGIROT'
           @service_number = $2
           @raw_file_date = columns[1]
-          @file_date = Date.parse(@raw_file_date)
+          year, month, day = @raw_file_date.scan(/\d{2}/).map {|i| i.to_i }
+          @file_date = Date.new(2000 + year, month, day)
         when '10'
         when '20'
           # Specifies the bankgiro number:
