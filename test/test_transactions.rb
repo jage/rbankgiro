@@ -6,7 +6,7 @@ class TestTransactions < Test::Unit::TestCase
 
     assert_equal(1, transactions.sum)
     assert_equal(1, transactions.length)
-    assert_equal(Time.parse('Fri Feb 27 00:00:00 +0100 2009'), transactions.file_date)
+    assert_equal(Date.parse('Fri Feb 27 2009'), transactions.file_date)
   end
 
   def test_multiple_transactions
@@ -15,7 +15,7 @@ class TestTransactions < Test::Unit::TestCase
     # Test SEK
     assert_equal(47093, transactions.sum)
     assert_equal(38, transactions.length)
-    assert_equal(Time.parse('Tue Jun 20 00:00:00 +0200 2006'), transactions.file_date)
+    assert_equal(Date.parse('Tue Jun 20 2006'), transactions.file_date)
 
     # Test LB flag
     assert_equal(false, transactions[28].lb_flag)
@@ -35,7 +35,7 @@ class TestTransactions < Test::Unit::TestCase
 
     assert_equal(55166, transactions.sum)
     assert_equal(37, transactions.length)
-    assert_equal(Time.parse('Tue Jun 20 00:00:00 +0200 2006'), transactions.file_date)
+    assert_equal(Date.parse('Tue Jun 20 00:00:00 2006'), transactions.file_date)
 
     for i in 0..1
       assert_equal('99123465', transactions[i].bankgiro_number)

@@ -10,6 +10,6 @@ class TestTransaction < Test::Unit::TestCase
     assert_equal(1, transaction.amount)
     assert_equal('53090965', transaction.bankgiro_number)
     assert_equal('909897', transaction.service_number)
-    assert_equal(Time.parse('Fri Feb 27 00:00:00 +0100 2009'), transaction.file_date)
+    assert_equal(Date.parse('Fri Feb 27 00:00:00 2009'), transaction.file_date)
   end
 end

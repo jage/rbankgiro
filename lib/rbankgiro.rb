@@ -92,7 +92,7 @@ module Rbankgiro
           raise CorruptHeader unless columns[2] == 'BANKGIROT'
           @service_number = $2
           @raw_file_date = columns[1]
-          @file_date = Time.parse(@raw_file_date)
+          @file_date = Date.parse(@raw_file_date)
         when '10'
         when '20'
           # Specifies the bankgiro number:
