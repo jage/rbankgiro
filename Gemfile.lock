@@ -4,9 +4,9 @@ PATH
     rbankgiro (0.2.1)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
-    rake (0.9.2.2)
+    rake (10.0.4)
 
 PLATFORMS
   ruby
